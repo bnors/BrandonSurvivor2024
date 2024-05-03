@@ -8,11 +8,17 @@ public class Enemy : MonoBehaviour
     private int currentHealth;   // Current health
     public float speed = 2.0f;   // Reduced speed for more manageable gameplay
     private Transform player;    // Reference to the player's transform
+    private Animator animator;   // Animator component
+    private SpriteRenderer spriteRenderer; // SpriteRenderer component
+    private Rigidbody2D rb;      // Rigidbody2D component
 
     private void Start()
     {
         currentHealth = maxHealth; // Initialize health
         player = GameObject.FindGameObjectWithTag("Player").transform; // Find the player by tag
+        animator = GetComponent<Animator>(); // Get the Animator component
+        spriteRenderer = GetComponent<SpriteRenderer>(); // Get the SpriteRenderer component
+        rb = GetComponent<Rigidbody2D>(); // Get the Rigidbody2D component
     }
 
     void FixedUpdate()
@@ -24,9 +30,23 @@ public class Enemy : MonoBehaviour
     {
         if (player != null)
         {
-            // Move each frame towards the player's position using Rigidbody2D for smooth kinematic movement
+            Vector3 direction = (player.position - transform.position).normalized;
+            float horizontal = direction.x;
+            float vertical = direction.y;
+
+            // Set animator parameters
+            animator.SetFloat("Horizontal", horizontal);
+            animator.SetFloat("Vertical", vertical);
+
+            // Move towards the player's position
             Vector3 newPosition = Vector3.MoveTowards(transform.position, player.position, speed * Time.fixedDeltaTime);
-            GetComponent<Rigidbody2D>().MovePosition(newPosition);
+            rb.MovePosition(newPosition);
+
+            // Handle sprite flipping based on the x-direction
+            if (horizontal != 0)
+            {
+                spriteRenderer.flipX = horizontal > 0;
+            }
         }
     }
 

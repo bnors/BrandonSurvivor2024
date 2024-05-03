@@ -4,26 +4,31 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField] GameObject enemyPrefab;
+    [SerializeField] GameObject[] enemyPrefabs; // Array of enemy prefabs
+    [SerializeField] float spawnRate = 5f;      // Time between each spawn
+    [SerializeField] float spawnDistance = 10f; // Distance from the player to spawn enemies
+    private Transform playerTransform;          // To store the player's transform
 
     private void Start()
     {
+        playerTransform = GameObject.FindGameObjectWithTag("Player").transform; // Find the player by tag
         StartCoroutine(SpawnEnemy());
     }
 
-    public IEnumerator SpawnEnemy()
+    private IEnumerator SpawnEnemy()
     {
         while (true)
         {
+            yield return new WaitForSeconds(spawnRate); // Wait for the time defined in spawnRate
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < enemyPrefabs.Length; i++)
             {
-                Instantiate(enemyPrefab, new Vector3(3f, 3f, 0), Quaternion.identity);
-            }
+                Vector3 spawnDirection = Random.insideUnitSphere * spawnDistance; // Get a random direction
+                spawnDirection += playerTransform.position; // Position around the player
+                spawnDirection.y = 0; // Adjust y to 0 if your game is 3D to keep them on the same plane
 
-            yield return new WaitForSeconds(5);
-        
+                Instantiate(enemyPrefabs[i], spawnDirection, Quaternion.identity);
+            }
         }
     }
-
 }

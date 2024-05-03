@@ -589,7 +589,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59b4f39832284164ba54d3bce5a22604, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 3680037264084495223, guid: 63cb7fcfa2edb4a40a6a67b49293d028, type: 3}
+  enemyPrefabs:
+  - {fileID: 3680037264084495223, guid: 63cb7fcfa2edb4a40a6a67b49293d028, type: 3}
+  - {fileID: 882663376636952525, guid: d57bac9a2bf227e4e867b686946dd6ff, type: 3}
+  - {fileID: 5259417111113271822, guid: 37bbfa0e814d55448b6b064f7b2b0db6, type: 3}
+  spawnRate: 5
+  spawnDistance: 10
 --- !u!4 &976100786
 Transform:
   m_ObjectHideFlags: 0
