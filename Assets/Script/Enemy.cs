@@ -11,6 +11,7 @@ public class Enemy : MonoBehaviour
     private Animator animator;   // Animator component
     private SpriteRenderer spriteRenderer; // SpriteRenderer component
     private Rigidbody2D rb;      // Rigidbody2D component
+    public GameObject xpShardPrefab;
 
     private void Start()
     {
@@ -66,7 +67,18 @@ public class Enemy : MonoBehaviour
 
     private void Die()
     {
+        DropXPShards();
         SoundPlayer.GetInstance().PlayDeathAudio();  // Play death sound
         Destroy(gameObject);                         // Destroy enemy game object
+    }
+
+    private void DropXPShards()
+    {
+        int numShards = Random.Range(1, 4);  // Randomize the number of shards dropped
+        for (int i = 0; i < numShards; i++)
+        {
+            Vector3 dropPosition = transform.position + new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0);
+            Instantiate(xpShardPrefab, dropPosition, Quaternion.identity);
+        }
     }
 }

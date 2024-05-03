@@ -123,6 +123,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   speed: 1.5
+  xpShardPrefab: {fileID: 5586514396905488071, guid: 838e266c59acc134293068f3671cf885, type: 3}
 --- !u!212 &2162642934734060562
 SpriteRenderer:
   m_ObjectHideFlags: 0
