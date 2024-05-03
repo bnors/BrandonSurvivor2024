@@ -49,7 +49,7 @@ public class Player : MonoBehaviour
         // Flip sprite based on horizontal movement
         if (x != 0)
         {
-            spriteRenderer.flipX = x < 0;
+            spriteRenderer.flipX = x > 0;
         }
     }
 
