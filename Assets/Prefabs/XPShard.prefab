@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7875893567576025598}
   - component: {fileID: 5124613131297986655}
   - component: {fileID: 6759233329992311928}
+  - component: {fileID: 7971521134385770936}
   m_Layer: 0
   m_Name: XPShard
   m_TagString: Untagged
@@ -28,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.3335928, y: 0.6094983, z: 0.05280231}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.69064, y: 0.69064, z: 0.69064}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 722457268120733138}
@@ -121,6 +122,21 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &7971521134385770936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5586514396905488071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d747692c3c644e14f87e354a65c6a549, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  xpValue: 10
+  detectionRadius: 5
+  movementSpeed: 5
 --- !u!1 &7044970260311391271
 GameObject:
   m_ObjectHideFlags: 0
@@ -148,7 +164,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -0.05280231}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2.902659, y: 2.902659, z: 2.902659}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7875893567576025598}
@@ -194,7 +210,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: abe373dce1d8a824bb28aeb49d910fb2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

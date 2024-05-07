@@ -7,6 +7,7 @@ public class SoundPlayer : MonoBehaviour
     [SerializeField] private AudioSource deathAudio;
     [SerializeField] private AudioSource hitAudio;
     [SerializeField] private AudioSource orbitHitAudio;
+    [SerializeField] private AudioSource xpCollectAudio;
 
     private static SoundPlayer instance;
 
@@ -40,5 +41,13 @@ public class SoundPlayer : MonoBehaviour
     {
         Debug.Log("Playing hammer hit sound" + orbitHitAudio.clip.name);
         orbitHitAudio.Play();
+    }
+
+    public void PlayXPCollectAudio()
+    {
+        if (xpCollectAudio != null)
+        {
+            xpCollectAudio.Play();
+        }
     }
 }
