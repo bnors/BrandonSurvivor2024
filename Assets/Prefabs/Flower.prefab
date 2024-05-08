@@ -121,6 +121,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4d049b10a26b324daa54118f9650e17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  poolName: Flower
   maxHealth: 100
   speed: 1.5
   xpShardPrefab: {fileID: 5586514396905488071, guid: 838e266c59acc134293068f3671cf885, type: 3}

@@ -87,9 +87,15 @@ public class Player : MonoBehaviour
         for (int i = 0; i < 3; i++)
         {
             Quaternion rot = Quaternion.Euler(0, 0, Random.Range(0, 360f));
-            GameObject scythe = ObjectPool.getInstance().getPooledObject();
-            scythe.transform.SetPositionAndRotation(transform.position, rot);
-            scythe.SetActive(true);
+
+            // Pass the appropriate pool name, like "Scythe"
+            GameObject scythe = ObjectPool.Instance.GetPooledObject("Scythe");
+
+            if (scythe != null)
+            {
+                scythe.transform.SetPositionAndRotation(transform.position, rot);
+                scythe.SetActive(true);
+            }
         }
     }
 
@@ -100,7 +106,7 @@ public class Player : MonoBehaviour
 
         animator.SetFloat("Horizontal", x);
         animator.SetFloat("Vertical", y);
-        Debug.Log($"Horizontal: {x}, Vertical: {y}");
+        //Debug.Log($"Horizontal: {x}, Vertical: {y}");
 
         spriteRenderer.flipX = x > 0;
     }

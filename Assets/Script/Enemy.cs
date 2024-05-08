@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    [SerializeField] private string poolName;  // Set the enemy type's pool name in the Inspector
     public int maxHealth = 100;  // Maximum health
     private int currentHealth;   // Current health
     public float speed = 2.0f;   // Reduced speed for more manageable gameplay
@@ -67,6 +68,12 @@ public class Enemy : MonoBehaviour
 
     private void Die()
     {
+        // Debug: Confirm which poolName is being registered
+        Debug.Log($"Enemy {poolName} is dying and will be registered.");
+
+        // Register the kill to the enemy spawner using the pool name
+        EnemySpawner.Instance.RegisterEnemyEncounter(poolName);
+
         DropXPShards();
         SoundPlayer.GetInstance().PlayDeathAudio();  // Play death sound
         Destroy(gameObject);                         // Destroy enemy game object

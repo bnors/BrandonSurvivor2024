@@ -33,13 +33,13 @@ public class SoundPlayer : MonoBehaviour
 
     public void PlayHitAudio()
     {
-        Debug.Log("Playing scythe hit sound");
+        //Debug.Log("Playing scythe hit sound");
         hitAudio.Play();
     }
 
     public void PlayOrbitHitAudio()
     {
-        Debug.Log("Playing hammer hit sound" + orbitHitAudio.clip.name);
+        //Debug.Log("Playing hammer hit sound" + orbitHitAudio.clip.name);
         orbitHitAudio.Play();
     }
 
