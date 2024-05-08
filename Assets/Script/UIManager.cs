@@ -27,7 +27,7 @@ public class UIManager : MonoBehaviour
     {
         if (scytheDamageText != null)
         {
-            scytheDamageText.text = $"Scythe Damage: {damage}";
+            scytheDamageText.text = $"{damage}";
         }
     }
 
@@ -35,7 +35,7 @@ public class UIManager : MonoBehaviour
     {
         if (orbitingWeaponDamageText != null)
         {
-            orbitingWeaponDamageText.text = $"Hammer Damage: {damage}";
+            orbitingWeaponDamageText.text = $"{damage}";
         }
     }
 }
