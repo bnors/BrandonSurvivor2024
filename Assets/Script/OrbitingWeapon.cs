@@ -6,26 +6,38 @@ public class OrbitingWeapon : MonoBehaviour
 {
     private int baseDamage = 10;
     private int damage;
-    public Transform player;                // Reference to the player's transform
-    public float orbitDistance = 1.5f;      // Distance from the player
-    public float orbitSpeed = 180.0f;       // Speed of orbiting around the player
+    public Transform player;
+    public float orbitDistance = 1.5f;
+    public float orbitSpeed = 180f;
 
     private void Start()
     {
-        damage = baseDamage;
+        // Initialize the damage based on the player's current level at startup
+        AdjustDamage(Player.GetInstance().GetCurrentLevel());
+
         Player.OnLevelUp += AdjustDamage;  // Subscribe to the level-up event
+        UpdateDamageText();  // Initialize the damage text on startup
     }
 
     private void OnDestroy()
     {
-        Player.OnLevelUp -= AdjustDamage;  // Unsubscribe to prevent memory leaks
+        Player.OnLevelUp -= AdjustDamage;  // Unsubscribe from the level-up event
     }
 
     private void AdjustDamage(int playerLevel)
     {
-        // Adjust the damage based on player's level
+        // Adjust the damage based on the player's level
         damage = baseDamage + (playerLevel * 5);  // Example scaling formula
-        Debug.Log($"Orbiting weapon damage adjusted to {damage} for level {playerLevel}");
+        Debug.Log($"Orbiting hammer damage adjusted to {damage} for level {playerLevel}");
+        UpdateDamageText();  // Update the UI through the UI manager
+    }
+
+    private void UpdateDamageText()
+    {
+        if (UIManager.Instance != null)
+        {
+            UIManager.Instance.UpdateOrbitingWeaponDamageText(damage);
+        }
     }
 
     void Update()
@@ -46,9 +58,13 @@ public class OrbitingWeapon : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
-            Debug.Log($"Orbiting weapon is dealing {damage} damage to {other.name}");
-            other.GetComponent<Enemy>().TakeDamage(damage);  // Apply the scaled damage
-            SoundPlayer.GetInstance().PlayOrbitHitAudio();  // Play the orbit weapon hit sound
+            Enemy enemy = other.GetComponent<Enemy>();
+            if (enemy != null)
+            {
+                Debug.Log($"Orbiting hammer is dealing {damage} damage to {enemy.name}");
+                enemy.TakeDamage(damage);  // Apply the scaled damage
+                SoundPlayer.GetInstance().PlayOrbitHitAudio();  // Play the orbit weapon hit sound
+            }
         }
     }
 }

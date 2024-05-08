@@ -7,7 +7,8 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set; }  // Singleton instance
 
-    [SerializeField] private TextMeshProUGUI scytheDamageText;  // Reference to Scythe damage text
+    [SerializeField] private TextMeshProUGUI scytheDamageText;
+    [SerializeField] private TextMeshProUGUI orbitingWeaponDamageText;  // New field
 
     private void Awake()
     {
@@ -22,12 +23,19 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    // Method to update Scythe damage text
     public void UpdateScytheDamageText(int damage)
     {
         if (scytheDamageText != null)
         {
             scytheDamageText.text = $"Scythe Damage: {damage}";
+        }
+    }
+
+    public void UpdateOrbitingWeaponDamageText(int damage)
+    {
+        if (orbitingWeaponDamageText != null)
+        {
+            orbitingWeaponDamageText.text = $"Hammer Damage: {damage}";
         }
     }
 }
