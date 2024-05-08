@@ -4,9 +4,12 @@ using UnityEngine.UI;
 using UnityEngine;
 using TMPro;
 using System.ComponentModel;
+using System;
 
 public class Player : MonoBehaviour
 {
+    public static event Action<int> OnLevelUp;  // Level-up event with player's new level as a parameter
+
     [SerializeField] float MoveSpeed;
     [SerializeField] GameObject scythePrefab;
     [SerializeField] float scytheTime = 2;
@@ -27,7 +30,7 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-            instance = this;
+        instance = this;
     }
 
     private void Start()
@@ -38,7 +41,6 @@ public class Player : MonoBehaviour
 
         UpdateXPUI();  // Initial UI update
     }
-
 
     private void Update()
     {
@@ -73,6 +75,9 @@ public class Player : MonoBehaviour
         currentXP -= xpToNextLevel;
         xpToNextLevel += 50;  // Increment needed XP for the next level
         levelText.text = "Level: " + currentLevel;  // Update level display
+
+        // Invoke the OnLevelUp event
+        OnLevelUp?.Invoke(currentLevel);
     }
 
     private void UpdateXPUI()
@@ -95,7 +100,7 @@ public class Player : MonoBehaviour
     {
         for (int i = 0; i < 3; i++)
         {
-            Quaternion rot = Quaternion.Euler(0, 0, Random.Range(0, 360f));
+            Quaternion rot = Quaternion.Euler(0, 0, UnityEngine.Random.Range(0, 360f));
 
             // Pass the appropriate pool name, like "Scythe"
             GameObject scythe = ObjectPool.Instance.GetPooledObject("Scythe");
@@ -115,7 +120,6 @@ public class Player : MonoBehaviour
 
         animator.SetFloat("Horizontal", x);
         animator.SetFloat("Vertical", y);
-        //Debug.Log($"Horizontal: {x}, Vertical: {y}");
 
         spriteRenderer.flipX = x > 0;
     }
@@ -125,5 +129,10 @@ public class Player : MonoBehaviour
         float x = Input.GetAxisRaw("Horizontal");
         float y = Input.GetAxisRaw("Vertical");
         rb.velocity = new Vector2(x, y) * MoveSpeed;
+    }
+
+    public int GetCurrentLevel()
+    {
+        return currentLevel;
     }
 }
