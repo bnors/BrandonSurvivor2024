@@ -8,13 +8,18 @@ using System;
 
 public class Player : MonoBehaviour
 {
-    public static event Action<int> OnLevelUp;  // Level-up event with player's new level as a parameter
+    public static event Action<int> OnLevelUp; // Level-up event with player's new level as a parameter
+    public static event Action OnPlayerDeath; 
 
     [SerializeField] float MoveSpeed;
     [SerializeField] GameObject scythePrefab;
+    [SerializeField] int maxHealth = 100;
+    [SerializeField] Slider healthBar;
+    [SerializeField] TextMeshProUGUI healthText;
     [SerializeField] float scytheTime = 2;
     [SerializeField] Slider xpBar;  // Reference to the UI slider for XP
     [SerializeField] TextMeshProUGUI levelText;  // Reference to the UI text for displaying the level
+    [SerializeField] GameObject gameOverUI;
     private static Player instance;
 
     public static Player GetInstance() => instance;
@@ -27,6 +32,8 @@ public class Player : MonoBehaviour
     private int currentXP = 0;
     private int currentLevel = 1;
     private int xpToNextLevel = 100;
+    private int currentHealth;
+    private bool isAlive = true;
 
     private void Awake()
     {
@@ -38,6 +45,9 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+
+        currentHealth = maxHealth;
+        UpdateHealthUI();
 
         UpdateXPUI();  // Initial UI update
     }
@@ -134,5 +144,36 @@ public class Player : MonoBehaviour
     public int GetCurrentLevel()
     {
         return currentLevel;
+    }
+
+    public void TakeDamage(int damage)
+    {
+        if (!isAlive) return;
+
+        currentHealth -= damage;
+        UpdateHealthUI();
+
+        if (currentHealth <= 0)
+        {
+            currentHealth = 0;
+            isAlive = false;
+            OnPlayerDeath?.Invoke();  // Invoke the player death event
+            ShowGameOverUI();         // Display the game-over screen
+            GameManager.Instance.ShowGameOverUI();
+        }
+    }
+
+    private void UpdateHealthUI()
+    {
+        healthBar.maxValue = maxHealth;
+        healthBar.value = currentHealth;
+        healthText.text = $"Health: {currentHealth}/{maxHealth}";
+    }
+
+    private void ShowGameOverUI()
+    {
+
+        // Activate the Game Over UI canvas
+        gameOverUI.SetActive(true);
     }
 }

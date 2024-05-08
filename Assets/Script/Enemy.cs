@@ -5,6 +5,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private string poolName;  // Set the enemy type's pool name in the Inspector
+    [SerializeField] int attackDamage = 5;
     public int maxHealth = 100;  // Maximum health
     private int currentHealth;   // Current health
     public float speed = 2.0f;   // Reduced speed for more manageable gameplay
@@ -48,6 +49,18 @@ public class Enemy : MonoBehaviour
             if (horizontal != 0)
             {
                 spriteRenderer.flipX = horizontal > 0;
+            }
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            Player player = collision.GetComponent<Player>();
+            if (player != null)
+            {
+                player.TakeDamage(attackDamage);  // Deal damage to the player
             }
         }
     }
