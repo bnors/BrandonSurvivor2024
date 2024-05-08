@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 using TMPro;
+using System.ComponentModel;
 
 public class Player : MonoBehaviour
 {
@@ -11,6 +12,9 @@ public class Player : MonoBehaviour
     [SerializeField] float scytheTime = 2;
     [SerializeField] Slider xpBar;  // Reference to the UI slider for XP
     [SerializeField] TextMeshProUGUI levelText;  // Reference to the UI text for displaying the level
+    private static Player instance;
+
+    public static Player GetInstance() => instance;
 
     float currentScytheTimer;
     Rigidbody2D rb;
@@ -20,6 +24,11 @@ public class Player : MonoBehaviour
     private int currentXP = 0;
     private int currentLevel = 1;
     private int xpToNextLevel = 100;
+
+    private void Awake()
+    {
+            instance = this;
+    }
 
     private void Start()
     {
