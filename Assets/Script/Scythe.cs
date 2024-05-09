@@ -31,6 +31,11 @@ public class Scythe : MonoBehaviour, IPoolable
         lifetime = 2;  // Reset the lifetime but not the damage
     }
 
+    public int GetDamage()
+    {
+        return damage;
+    }
+
     private void AdjustDamage(int playerLevel)
     {
         // Adjust the damage based on the player's level

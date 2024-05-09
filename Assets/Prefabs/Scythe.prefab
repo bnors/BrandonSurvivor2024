@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: -7095607156658791843}
   m_Layer: 0
   m_Name: Scythe
-  m_TagString: Untagged
+  m_TagString: Scythe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -81,6 +81,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ce61713b33b4ed41a31869e6e567e68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lifetime: 2
 --- !u!1 &3692110653342272661
 GameObject:
   m_ObjectHideFlags: 0

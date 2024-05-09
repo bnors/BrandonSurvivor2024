@@ -24,6 +24,11 @@ public class OrbitingWeapon : MonoBehaviour
         Player.OnLevelUp -= AdjustDamage;  // Unsubscribe from the level-up event
     }
 
+    public int GetDamage()
+    { 
+        return damage; 
+    }
+
     private void AdjustDamage(int playerLevel)
     {
         // Adjust the damage based on the player's level

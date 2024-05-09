@@ -9,6 +9,7 @@ public class SoundPlayer : MonoBehaviour
     [SerializeField] private AudioSource orbitHitAudio;
     [SerializeField] private AudioSource xpCollectAudio;
     [SerializeField] private AudioSource backgroundMusic;
+    [SerializeField] private AudioSource weakPointHitAudio; // New field for weak point hit sound
 
     private static SoundPlayer instance;
 
@@ -34,13 +35,11 @@ public class SoundPlayer : MonoBehaviour
 
     public void PlayHitAudio()
     {
-        //Debug.Log("Playing scythe hit sound");
         hitAudio.Play();
     }
 
     public void PlayOrbitHitAudio()
     {
-        //Debug.Log("Playing hammer hit sound" + orbitHitAudio.clip.name);
         orbitHitAudio.Play();
     }
 
@@ -56,8 +55,21 @@ public class SoundPlayer : MonoBehaviour
     {
         if (backgroundMusic != null)
         {
-            backgroundMusic.loop = true; // Loop the background music
-            backgroundMusic.Play(); // Start playing the music
+            backgroundMusic.loop = true;
+            backgroundMusic.Play();
+        }
+    }
+
+    // New method for playing the weak point hit sound
+    public void PlayWeakPointHitAudio()
+    {
+        if (weakPointHitAudio != null)
+        {
+            weakPointHitAudio.Play();
+        }
+        else
+        {
+            Debug.LogWarning("Weak point hit audio is not assigned.");
         }
     }
 }
