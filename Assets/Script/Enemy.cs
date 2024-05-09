@@ -4,29 +4,43 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] private string poolName;  // Set the enemy type's pool name in the Inspector
+    [SerializeField] private string poolName;
     [SerializeField] int attackDamage = 5;
-    public int maxHealth = 100;  // Maximum health
-    private int currentHealth;   // Current health
-    public float speed = 2.0f;   // Reduced speed for more manageable gameplay
-    private Transform player;    // Reference to the player's transform
-    private Animator animator;   // Animator component
-    private SpriteRenderer spriteRenderer; // SpriteRenderer component
-    private Rigidbody2D rb;      // Rigidbody2D component
+    [SerializeField] GameObject fireballPrefab;
+    [SerializeField] Transform fireballSpawnPoint; // Ensure it's set in the Inspector
+    [SerializeField] float fireballSpeed = 5f;
+    [SerializeField] float fireballCooldown = 3f;
+    [SerializeField] int fireballDamage = 8;
+    [SerializeField] bool isFireDragon = false;
+
+    public int maxHealth = 100;
+    private int currentHealth;
+    public float speed = 2.0f;
+    private Transform player;
+    private Animator animator;
+    private SpriteRenderer spriteRenderer;
+    private Rigidbody2D rb;
+    private float lastFireballTime;
+
     public GameObject xpShardPrefab;
 
     private void Start()
     {
-        currentHealth = maxHealth; // Initialize health
-        player = GameObject.FindGameObjectWithTag("Player").transform; // Find the player by tag
-        animator = GetComponent<Animator>(); // Get the Animator component
-        spriteRenderer = GetComponent<SpriteRenderer>(); // Get the SpriteRenderer component
-        rb = GetComponent<Rigidbody2D>(); // Get the Rigidbody2D component
+        currentHealth = maxHealth;
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+        animator = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
-        MoveTowardsPlayer();  // Call the function to move towards the player each frame
+        MoveTowardsPlayer();
+
+        if (isFireDragon)
+        {
+            HandleFireballAttack();
+        }
     }
 
     private void MoveTowardsPlayer()
@@ -37,19 +51,41 @@ public class Enemy : MonoBehaviour
             float horizontal = direction.x;
             float vertical = direction.y;
 
-            // Set animator parameters
             animator.SetFloat("Horizontal", horizontal);
             animator.SetFloat("Vertical", vertical);
 
-            // Move towards the player's position
             Vector3 newPosition = Vector3.MoveTowards(transform.position, player.position, speed * Time.fixedDeltaTime);
             rb.MovePosition(newPosition);
 
-            // Handle sprite flipping based on the x-direction
             if (horizontal != 0)
             {
                 spriteRenderer.flipX = horizontal > 0;
             }
+        }
+    }
+
+    private void HandleFireballAttack()
+    {
+        // Check if the fireball cooldown has passed and ensure the fireball spawn point is set
+        if (Time.time >= lastFireballTime + fireballCooldown && player != null && fireballSpawnPoint != null)
+        {
+            // Calculate the direction vector towards the player
+            Vector2 direction = (player.position - fireballSpawnPoint.position).normalized;
+
+            // Instantiate the fireball at the designated spawn point
+            GameObject fireball = Instantiate(fireballPrefab, fireballSpawnPoint.position, Quaternion.identity);
+            Rigidbody2D rbFireball = fireball.GetComponent<Rigidbody2D>();
+            rbFireball.velocity = direction * fireballSpeed;
+
+            // Optionally set the damage value for the fireball (if required)
+            Fireball fireballComponent = fireball.GetComponent<Fireball>();
+            if (fireballComponent != null)
+            {
+                fireballComponent.SetDamage(fireballDamage);
+            }
+
+            // Update the last time the fireball was fired
+            lastFireballTime = Time.time;
         }
     }
 
@@ -60,41 +96,39 @@ public class Enemy : MonoBehaviour
             Player player = collision.GetComponent<Player>();
             if (player != null)
             {
-                player.TakeDamage(attackDamage);  // Deal damage to the player
+                player.TakeDamage(attackDamage);
             }
         }
     }
 
     public void TakeDamage(int damage)
     {
-        currentHealth -= damage;  // Reduce health by the damage amount
+        currentHealth -= damage;
 
         if (currentHealth <= 0)
         {
-            Die();  // Call Die function if health is zero or less
+            Die();
         }
         else
         {
-            SoundPlayer.GetInstance().PlayHitAudio();  // Play hit sound only if enemy did not die
+            SoundPlayer.GetInstance().PlayHitAudio();
         }
     }
 
     private void Die()
     {
-        // Debug: Confirm which poolName is being registered
         Debug.Log($"Enemy {poolName} is dying and will be registered.");
 
-        // Register the kill to the enemy spawner using the pool name
         EnemySpawner.Instance.RegisterEnemyEncounter(poolName);
 
         DropXPShards();
-        SoundPlayer.GetInstance().PlayDeathAudio();  // Play death sound
-        Destroy(gameObject);                         // Destroy enemy game object
+        SoundPlayer.GetInstance().PlayDeathAudio();
+        Destroy(gameObject);
     }
 
     private void DropXPShards()
     {
-        int numShards = Random.Range(1, 4);  // Randomize the number of shards dropped
+        int numShards = Random.Range(1, 4);
         for (int i = 0; i < numShards; i++)
         {
             Vector3 dropPosition = transform.position + new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0);
