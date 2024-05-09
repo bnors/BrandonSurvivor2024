@@ -42,6 +42,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        SoundPlayer.GetInstance().PlayBackgroundMusic();
+
         // Assign the player and enemySpawner dynamically if not already set
         if (player == null)
             player = FindObjectOfType<Player>();

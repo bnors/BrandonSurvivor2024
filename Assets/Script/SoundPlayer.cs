@@ -8,6 +8,7 @@ public class SoundPlayer : MonoBehaviour
     [SerializeField] private AudioSource hitAudio;
     [SerializeField] private AudioSource orbitHitAudio;
     [SerializeField] private AudioSource xpCollectAudio;
+    [SerializeField] private AudioSource backgroundMusic;
 
     private static SoundPlayer instance;
 
@@ -48,6 +49,15 @@ public class SoundPlayer : MonoBehaviour
         if (xpCollectAudio != null)
         {
             xpCollectAudio.Play();
+        }
+    }
+
+    public void PlayBackgroundMusic()
+    {
+        if (backgroundMusic != null)
+        {
+            backgroundMusic.loop = true; // Loop the background music
+            backgroundMusic.Play(); // Start playing the music
         }
     }
 }
