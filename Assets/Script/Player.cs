@@ -20,7 +20,12 @@ public class Player : MonoBehaviour
     [SerializeField] Slider xpBar;  // Reference to the UI slider for XP
     [SerializeField] TextMeshProUGUI levelText;  // Reference to the UI text for displaying the level
     [SerializeField] GameObject gameOverUI;
+    [SerializeField] AudioClip walkingClip;
+    [SerializeField][Range(0f, 1f)] private float walkingVolume = 0.5f; // Adjust this value in the Inspector
+
     private static Player instance;
+    private AudioSource walkingAudioSource;
+    private bool isMoving;
 
     public static Player GetInstance() => instance;
 
@@ -48,14 +53,32 @@ public class Player : MonoBehaviour
 
         currentHealth = maxHealth;
         UpdateHealthUI();
-
         UpdateXPUI();  // Initial UI update
+
+        // Initialize the walking audio source
+        walkingAudioSource = gameObject.AddComponent<AudioSource>();
+        walkingAudioSource.clip = walkingClip; // Ensure this clip is set via Inspector
+        walkingAudioSource.loop = true; // Loop walking sound
+
+        // Apply the volume
+        walkingAudioSource.volume = walkingVolume;
     }
 
     private void Update()
     {
         HandleScytheTimer();
         HandleMovement();
+
+        // Check if the player is moving and play or stop the walking sound
+        isMoving = Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0;
+        if (isMoving && !walkingAudioSource.isPlaying)
+        {
+            walkingAudioSource.Play();  // Play the walking sound if not already playing
+        }
+        else if (!isMoving && walkingAudioSource.isPlaying)
+        {
+            walkingAudioSource.Stop();  // Stop the walking sound if not moving
+        }
 
         // Test XP addition with a key press
         if (Input.GetKeyDown(KeyCode.X))
@@ -123,6 +146,27 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void HandleMovementSound()
+    {
+        float x = Input.GetAxisRaw("Horizontal");
+        float y = Input.GetAxisRaw("Vertical");
+
+        // Check if the player is moving
+        bool currentlyMoving = x != 0 || y != 0;
+
+        // If the player is moving and the walking sound isn't playing, start the sound
+        if (currentlyMoving && !walkingAudioSource.isPlaying)
+        {
+            walkingAudioSource.Play();
+        }
+        // Stop the walking sound if the player stops moving
+        else if (!currentlyMoving && walkingAudioSource.isPlaying)
+        {
+            walkingAudioSource.Stop();
+        }
+    }
+
+
     private void HandleMovement()
     {
         float x = Input.GetAxisRaw("Horizontal");
@@ -132,6 +176,23 @@ public class Player : MonoBehaviour
         animator.SetFloat("Vertical", y);
 
         spriteRenderer.flipX = x > 0;
+
+        // Play walking sound if moving, stop if not moving
+        if (x != 0 || y != 0)
+        {
+            walkingAudioSource.volume = walkingVolume; // Ensure the volume is set
+            if (!walkingAudioSource.isPlaying)
+            {
+                walkingAudioSource.Play();
+            }
+        }
+        else
+        {
+            if (walkingAudioSource.isPlaying)
+            {
+                walkingAudioSource.Stop();
+            }
+        }
     }
 
     private void ApplyMovement()
