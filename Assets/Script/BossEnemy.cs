@@ -69,6 +69,13 @@ public class BossEnemy : MonoBehaviour
         HandleAttackTimer();
     }
 
+    IEnumerator FlashRed()
+    {
+        spriteRenderer.color = Color.red;  // Change color to red
+        yield return new WaitForSeconds(0.1f);  // Duration of the flash
+        spriteRenderer.color = Color.white;  // Revert to original color
+    }
+
     private void HandleMovement(Vector2 direction, float distance)
     {
         animator.SetFloat("Horizontal", direction.x);
@@ -149,6 +156,7 @@ public class BossEnemy : MonoBehaviour
         if (isDead) return;  // No further action if already dead
 
         currentHealth -= damage;
+        StartCoroutine(FlashRed());  // Start the FlashRed coroutine
         Debug.Log($"Boss took {damage} damage, current health: {currentHealth}");
 
         // Check weapon type and play corresponding sound

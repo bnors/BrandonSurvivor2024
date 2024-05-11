@@ -43,6 +43,13 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    IEnumerator FlashRed()
+    {
+        spriteRenderer.color = Color.red;  // Change color to red
+        yield return new WaitForSeconds(0.1f);  // Duration of the flash
+        spriteRenderer.color = Color.white;  // Revert to original color
+    }
+
     private void MoveTowardsPlayer()
     {
         if (player != null)
@@ -102,6 +109,7 @@ public class Enemy : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
+        StartCoroutine(FlashRed());  // Start the FlashRed coroutine
         currentHealth -= damage;
 
         if (currentHealth <= 0)
