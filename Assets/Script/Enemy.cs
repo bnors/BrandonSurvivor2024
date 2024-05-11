@@ -92,6 +92,9 @@ public class Enemy : MonoBehaviour
             }
 
             lastFireballTime = Time.time;
+
+            // Play the whoosh sound for launching the fireball
+            SoundPlayer.GetInstance().PlayFireballLaunchAudio();
         }
     }
 

@@ -10,6 +10,8 @@ public class SoundPlayer : MonoBehaviour
     [SerializeField] private AudioSource xpCollectAudio;
     [SerializeField] private AudioSource backgroundMusic;
     [SerializeField] private AudioSource weakPointHitAudio;
+    [SerializeField] private AudioSource playerHitAudio;
+    [SerializeField] private AudioSource fireballLaunchAudio;
 
     private static SoundPlayer instance;
 
@@ -25,6 +27,30 @@ public class SoundPlayer : MonoBehaviour
         else
         {
             Destroy(gameObject);
+        }
+    }
+
+    public void PlayPlayerHitAudio()
+    {
+        if (playerHitAudio != null)
+        {
+            playerHitAudio.Play();
+        }
+        else
+        {
+            Debug.LogWarning("Player hit audio is not assigned.");
+        }
+    }
+
+    public void PlayFireballLaunchAudio()
+    {
+        if (fireballLaunchAudio != null)
+        {
+            fireballLaunchAudio.Play();
+        }
+        else
+        {
+            Debug.LogWarning("Fireball launch audio is not assigned.");
         }
     }
 

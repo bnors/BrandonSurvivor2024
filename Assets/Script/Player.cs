@@ -214,6 +214,9 @@ public class Player : MonoBehaviour
         currentHealth -= damage;
         UpdateHealthUI();
 
+        // Play the hit sound
+        SoundPlayer.GetInstance().PlayPlayerHitAudio();
+
         if (currentHealth <= 0)
         {
             currentHealth = 0;
