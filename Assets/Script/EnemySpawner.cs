@@ -118,7 +118,7 @@ public class EnemySpawner : MonoBehaviour
             // Randomize spawn position around the player
             Vector3 spawnDirection = Random.insideUnitSphere * spawnDistance;
             spawnDirection += playerTransform.position;
-            spawnDirection.z = 0;  // Ensure the enemy remains on the 2D plane
+            spawnDirection.z = 0;  
 
             // Fetch from the object pool using the chosen pool name
             GameObject enemy = ObjectPool.Instance.GetPooledObject(poolName);

@@ -19,7 +19,7 @@ public class ObjectPool : MonoBehaviour
         public int poolCount;  // Number of objects in the pool
     }
 
-    [SerializeField] private List<Pool> pools = new List<Pool>();  // Let Unity handle this via Inspector
+    [SerializeField] private List<Pool> pools = new List<Pool>(); 
 
     private Dictionary<string, Queue<GameObject>> poolDictionary;
     private static ObjectPool instance;

@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        // Assign references dynamically (if they're not already set)
+        // Assign references dynamically 
         if (enemySpawner == null)
             enemySpawner = FindObjectOfType<EnemySpawner>();
 

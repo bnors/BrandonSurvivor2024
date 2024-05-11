@@ -153,7 +153,7 @@ public class BossEnemy : MonoBehaviour
 
     public void TakeDamage(int damage, string weaponType)
     {
-        if (isDead) return;  // No further action if already dead
+        if (isDead) return;  
 
         currentHealth -= damage;
         StartCoroutine(FlashRed());  // Start the FlashRed coroutine
@@ -178,7 +178,7 @@ public class BossEnemy : MonoBehaviour
     private void Die()
     {
         Debug.Log("Boss is dead!");
-        // Optionally, you could also play a death sound or trigger other effects here.
+        // ADD SOUND EFFECT
         Destroy(gameObject); // This destroys the boss GameObject
     }
 
@@ -187,7 +187,7 @@ public class BossEnemy : MonoBehaviour
         Debug.Log("Boss is attacking the player!");
         if (player.GetComponent<Player>() != null)
         {
-            player.GetComponent<Player>().TakeDamage(10); // Assumes the player has a TakeDamage method
+            player.GetComponent<Player>().TakeDamage(10); 
         }
     }
 }

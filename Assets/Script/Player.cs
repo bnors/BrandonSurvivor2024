@@ -21,7 +21,7 @@ public class Player : MonoBehaviour
     [SerializeField] TextMeshProUGUI levelText;  // Reference to the UI text for displaying the level
     [SerializeField] GameObject gameOverUI;
     [SerializeField] AudioClip walkingClip;
-    [SerializeField][Range(0f, 1f)] private float walkingVolume = 0.5f; // Adjust this value in the Inspector
+    [SerializeField][Range(0f, 1f)] private float walkingVolume = 0.5f;
     [SerializeField] private int baseScytheCount = 3;  // Starting number of scythes
 
     private static Player instance;
@@ -58,7 +58,7 @@ public class Player : MonoBehaviour
 
         // Initialize the walking audio source
         walkingAudioSource = gameObject.AddComponent<AudioSource>();
-        walkingAudioSource.clip = walkingClip; // Ensure this clip is set via Inspector
+        walkingAudioSource.clip = walkingClip; 
         walkingAudioSource.loop = true; // Loop walking sound
 
         // Apply the volume
@@ -84,7 +84,7 @@ public class Player : MonoBehaviour
         // Test XP addition with a key press
         if (Input.GetKeyDown(KeyCode.X))
         {
-            AddXP(100);  // Adds 10 XP every time 'X' is pressed
+            AddXP(100);  // Adds 100 XP every time 'X' is pressed
         }
     }
 
@@ -137,7 +137,7 @@ public class Player : MonoBehaviour
         for (int i = 0; i < baseScytheCount; i++)  // Spawn scythes based on the current count
         {
             Quaternion rotation = Quaternion.Euler(0, 0, UnityEngine.Random.Range(0, 360f));
-            GameObject scythe = ObjectPool.Instance.GetPooledObject("Scythe");  // Ensure this is the correct pool name
+            GameObject scythe = ObjectPool.Instance.GetPooledObject("Scythe"); 
             if (scythe != null)
             {
                 scythe.transform.SetPositionAndRotation(transform.position, rotation);
@@ -180,7 +180,7 @@ public class Player : MonoBehaviour
         // Play walking sound if moving, stop if not moving
         if (x != 0 || y != 0)
         {
-            walkingAudioSource.volume = walkingVolume; // Ensure the volume is set
+            walkingAudioSource.volume = walkingVolume;
             if (!walkingAudioSource.isPlaying)
             {
                 walkingAudioSource.Play();

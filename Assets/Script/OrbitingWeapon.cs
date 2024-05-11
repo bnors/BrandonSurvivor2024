@@ -33,7 +33,7 @@ public class OrbitingWeapon : MonoBehaviour
     {
         // Adjust the damage based on the player's level
         damage = baseDamage + (playerLevel * 5);  // Example scaling formula
-        Debug.Log($"Orbiting hammer damage adjusted to {damage} for level {playerLevel}");
+        //Debug.Log($"Orbiting hammer damage adjusted to {damage} for level {playerLevel}");
         UpdateDamageText();  // Update the UI through the UI manager
     }
 
@@ -79,7 +79,7 @@ public class OrbitingWeapon : MonoBehaviour
             if (boss != null)
             {
                 Debug.Log($"Hammer is dealing {damage} damage to {boss.name}");
-                boss.TakeDamage(damage, "Scythe");
+                boss.TakeDamage(damage, "Hammer");
                 SoundPlayer.GetInstance().PlayOrbitHitAudio();  // Play the orbit weapon hit sound
             }
         }

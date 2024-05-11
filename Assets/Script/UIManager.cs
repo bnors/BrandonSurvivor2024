@@ -8,7 +8,7 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance { get; private set; }  // Singleton instance
 
     [SerializeField] private TextMeshProUGUI scytheDamageText;
-    [SerializeField] private TextMeshProUGUI orbitingWeaponDamageText;  // New field
+    [SerializeField] private TextMeshProUGUI orbitingWeaponDamageText;
 
     private void Awake()
     {

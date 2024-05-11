@@ -7,7 +7,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private string poolName;
     [SerializeField] int attackDamage = 5;
     [SerializeField] GameObject fireballPrefab;
-    [SerializeField] Transform fireballSpawnPoint; // Ensure it's set in the Inspector
+    [SerializeField] Transform fireballSpawnPoint; 
     [SerializeField] float fireballSpeed = 5f;
     [SerializeField] float fireballCooldown = 3f;
     [SerializeField] int fireballDamage = 8;
