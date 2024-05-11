@@ -8,6 +8,7 @@ TagManager:
   - WeakPoint
   - Scythe
   - Hammer
+  - Boss
   layers:
   - Default
   - TransparentFX

@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     public GameObject gameOverUI;
     public Player player;  // Use the Player component directly
 
+    [SerializeField] private GameObject bossPrefab;
+
     private void Awake()
     {
         // Implement singleton pattern
@@ -44,12 +46,36 @@ public class GameManager : MonoBehaviour
     {
         SoundPlayer.GetInstance().PlayBackgroundMusic();
 
+        // Subscribe to the player's level up event
+        Player.OnLevelUp += HandlePlayerLevelUp;
+
         // Assign the player and enemySpawner dynamically if not already set
         if (player == null)
             player = FindObjectOfType<Player>();
 
         if (enemySpawner == null)
             enemySpawner = FindObjectOfType<EnemySpawner>();
+    }
+
+    private void HandlePlayerLevelUp(int level)
+    {
+        // Check if the level is 10 and spawn the boss
+        if (level == 10)
+        {
+            SpawnBossNearPlayer(Player.GetInstance().transform.position);
+        }
+    }
+    private void SpawnBossNearPlayer(Vector3 playerPosition)
+    {
+        // Assuming BossPrefab is assigned via the Inspector
+        Vector3 spawnPosition = playerPosition + new Vector3(Random.Range(-5, 5), Random.Range(-5, 5), 0); // Customize range as needed
+        Instantiate(bossPrefab, spawnPosition, Quaternion.identity);
+    }
+
+    private void OnDestroy()
+    {
+        // Clean up the event subscription
+        Player.OnLevelUp -= HandlePlayerLevelUp;
     }
 
     public void ShowGameOverUI()

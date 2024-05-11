@@ -129,8 +129,8 @@ MonoBehaviour:
   fireballCooldown: 3
   fireballDamage: 8
   isFireDragon: 0
-  maxHealth: 100
-  speed: 1.5
+  maxHealth: 200
+  speed: 2
   xpShardPrefab: {fileID: 5586514396905488071, guid: 838e266c59acc134293068f3671cf885, type: 3}
 --- !u!212 &2162642934734060562
 SpriteRenderer:

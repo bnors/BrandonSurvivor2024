@@ -66,25 +66,24 @@ public class Enemy : MonoBehaviour
 
     private void HandleFireballAttack()
     {
-        // Check if the fireball cooldown has passed and ensure the fireball spawn point is set
         if (Time.time >= lastFireballTime + fireballCooldown && player != null && fireballSpawnPoint != null)
         {
-            // Calculate the direction vector towards the player
-            Vector2 direction = (player.position - fireballSpawnPoint.position).normalized;
+            Vector2 targetDirection = (player.position - fireballSpawnPoint.position);
+
+            if (targetDirection.sqrMagnitude < Mathf.Epsilon)  // Check for zero magnitude
+                targetDirection = Vector2.down;  // Default direction when overlapped or very close
+
+            targetDirection.Normalize();  // Normalize to ensure it has a unit length
 
             // Instantiate the fireball at the designated spawn point
             GameObject fireball = Instantiate(fireballPrefab, fireballSpawnPoint.position, Quaternion.identity);
-            Rigidbody2D rbFireball = fireball.GetComponent<Rigidbody2D>();
-            rbFireball.velocity = direction * fireballSpeed;
-
-            // Optionally set the damage value for the fireball (if required)
             Fireball fireballComponent = fireball.GetComponent<Fireball>();
             if (fireballComponent != null)
             {
+                fireballComponent.Initialize(player.position);  // Initialize fireball direction
                 fireballComponent.SetDamage(fireballDamage);
             }
 
-            // Update the last time the fireball was fired
             lastFireballTime = Time.time;
         }
     }

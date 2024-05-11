@@ -9,7 +9,7 @@ public class SoundPlayer : MonoBehaviour
     [SerializeField] private AudioSource orbitHitAudio;
     [SerializeField] private AudioSource xpCollectAudio;
     [SerializeField] private AudioSource backgroundMusic;
-    [SerializeField] private AudioSource weakPointHitAudio; // New field for weak point hit sound
+    [SerializeField] private AudioSource weakPointHitAudio;
 
     private static SoundPlayer instance;
 

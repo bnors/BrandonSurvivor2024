@@ -207,14 +207,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   poolName: Merman
-  attackDamage: 5
+  attackDamage: 15
   fireballPrefab: {fileID: 0}
   fireballSpawnPoint: {fileID: 0}
   fireballSpeed: 5
   fireballCooldown: 3
   fireballDamage: 8
   isFireDragon: 0
-  maxHealth: 100
+  maxHealth: 200
   speed: 1
   xpShardPrefab: {fileID: 5586514396905488071, guid: 838e266c59acc134293068f3671cf885, type: 3}
 --- !u!212 &5803739813656843584

@@ -68,13 +68,25 @@ public class Scythe : MonoBehaviour, IPoolable
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        // This block checks for damage against enemies
         if (collision.gameObject.CompareTag("Enemy"))
         {
             Enemy enemy = collision.GetComponent<Enemy>();
             if (enemy != null)
             {
                 Debug.Log($"Scythe is dealing {damage} damage to {enemy.name}");
-                enemy.TakeDamage(damage);  // Apply the calculated damage
+                enemy.TakeDamage(damage);
+            }
+        }
+
+        // This block checks for damage against the boss
+        if (collision.gameObject.CompareTag("Boss"))
+        {
+            BossEnemy boss = collision.GetComponent<BossEnemy>();
+            if (boss != null)
+            {
+                Debug.Log($"Scythe is dealing {damage} damage to {boss.name}");
+                boss.TakeDamage(damage, "Scythe");
             }
         }
     }

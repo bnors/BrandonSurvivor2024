@@ -22,6 +22,7 @@ public class Player : MonoBehaviour
     [SerializeField] GameObject gameOverUI;
     [SerializeField] AudioClip walkingClip;
     [SerializeField][Range(0f, 1f)] private float walkingVolume = 0.5f; // Adjust this value in the Inspector
+    [SerializeField] private int baseScytheCount = 3;  // Starting number of scythes
 
     private static Player instance;
     private AudioSource walkingAudioSource;
@@ -83,7 +84,7 @@ public class Player : MonoBehaviour
         // Test XP addition with a key press
         if (Input.GetKeyDown(KeyCode.X))
         {
-            AddXP(10);  // Adds 10 XP every time 'X' is pressed
+            AddXP(100);  // Adds 10 XP every time 'X' is pressed
         }
     }
 
@@ -108,6 +109,8 @@ public class Player : MonoBehaviour
         currentXP -= xpToNextLevel;
         xpToNextLevel += 50;  // Increment needed XP for the next level
         levelText.text = "Level: " + currentLevel;  // Update level display
+        baseScytheCount++;  // Increase the number of scythes spawned
+        Debug.Log("Level Up! Increased scythe count to: " + baseScytheCount);
 
         // Invoke the OnLevelUp event
         OnLevelUp?.Invoke(currentLevel);
@@ -131,16 +134,13 @@ public class Player : MonoBehaviour
 
     private void SpawnScythes()
     {
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < baseScytheCount; i++)  // Spawn scythes based on the current count
         {
-            Quaternion rot = Quaternion.Euler(0, 0, UnityEngine.Random.Range(0, 360f));
-
-            // Pass the appropriate pool name, like "Scythe"
-            GameObject scythe = ObjectPool.Instance.GetPooledObject("Scythe");
-
+            Quaternion rotation = Quaternion.Euler(0, 0, UnityEngine.Random.Range(0, 360f));
+            GameObject scythe = ObjectPool.Instance.GetPooledObject("Scythe");  // Ensure this is the correct pool name
             if (scythe != null)
             {
-                scythe.transform.SetPositionAndRotation(transform.position, rot);
+                scythe.transform.SetPositionAndRotation(transform.position, rotation);
                 scythe.SetActive(true);
             }
         }

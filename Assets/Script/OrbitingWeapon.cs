@@ -59,17 +59,31 @@ public class OrbitingWeapon : MonoBehaviour
         transform.RotateAround(player.position, Vector3.forward, orbitSpeed * Time.deltaTime);
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (other.CompareTag("Enemy"))
+        // This block checks for damage against enemies
+        if (collision.gameObject.CompareTag("Enemy"))
         {
-            Enemy enemy = other.GetComponent<Enemy>();
+            Enemy enemy = collision.GetComponent<Enemy>();
             if (enemy != null)
             {
                 Debug.Log($"Orbiting hammer is dealing {damage} damage to {enemy.name}");
-                enemy.TakeDamage(damage);  // Apply the scaled damage
+                enemy.TakeDamage(damage);
+            }
+        }
+
+        // This block checks for damage against the boss
+        if (collision.gameObject.CompareTag("Boss"))
+        {
+            BossEnemy boss = collision.GetComponent<BossEnemy>();
+            if (boss != null)
+            {
+                Debug.Log($"Hammer is dealing {damage} damage to {boss.name}");
+                boss.TakeDamage(damage, "Scythe");
                 SoundPlayer.GetInstance().PlayOrbitHitAudio();  // Play the orbit weapon hit sound
             }
         }
     }
+    
+   
 }
